@@ -10,4 +10,20 @@ RUN cd ff* && mv ff* /usr/local/bin
 
 WORKDIR /
 
-ENTRYPOINT ["/bin/bash"]
+ENV GO111MODULE=on 
+
+WORKDIR /
+
+# COPY
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+COPY *.go ./    
+COPY . . 
+
+RUN go build -o ffmpeg-golang
+
+EXPOSE 3000
+
+ENTRYPOINT ["./ffmpeg-golang"]
