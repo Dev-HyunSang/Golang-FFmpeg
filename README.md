@@ -1,13 +1,37 @@
-# FFmpeg & Golang on alpine
+# FFmpeg & Golang on Docker Container
+`golang:1.17.5-alpine3.15` Docker Container 위에서 FFmpeg를 돌아갈 수 있도록 하는 프로젝트입니다.
 
-## Stack 
+## Tech Stack 
+- Golang
+  - [gofiber/fiber/v2](https://github.com/gofiber/fiber)
+  - [floostack/transcoder](https://pkg.go.dev/github.com/floostack/transcoder)
 - [golang:1.17.5-alpine3.15](https://hub.docker.com/_/golang/)
 - [FFmpeg Staic Builds](https://johnvansickle.com/ffmpeg/)
     - Release 4.4.1
 
 ## Building & Development
+
+### Build & Running
+makefile을 통해서 손쉽게 Docker Container를 빌드하고 실행시킬 수 있도록 하였습니다.  
+**Docker Build:**
+```shell
+$ make build
+# or
+$ docker build --tag ffmpeg-golang:0.2 .
+```
+
+**Docker Run:**
+```shell
+$ make run
+# or 
+$ docker run --name ffmpeg-golang -p 3000:3000 ffmpeg-golang:0.2
+```
+
+### Development
 ```dockerfile
+# wget를 통해서 ffmpeg static를 다운할 수 있도록 함.
 RUN wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+# 압축 풀기
 RUN tar -xvJf  ffmpeg-release-amd64-static.tar.xz
 ```
 
@@ -33,9 +57,9 @@ usage: ffmpeg [options] [[infile options] -i infile]... {[outfile options] outfi
 Use -h to get full help or, even better, run 'man ffmpeg'
 ```
 
-## TESTING on Docker
-[**TEST Webm File**](https://www.webmfiles.org/demo-files/)를 이용하여서 진행하였습니다. webm에서 mp4로 변환합니다.
-
+## TESTING on Docker Container
+[**TEST Webm File**](https://www.webmfiles.org/demo-files/)를 이용하여서 진행하였습니다.  
+webm에서 mp4로 변환합니다.
 
 ```shell
 2022/01/06 14:09:58 {FramesProcessed:1 CurrentTime:00:00:00.25 CurrentBitrate:1.5kbits/s Progress:0.769704433497537 Speed:21.9x}
